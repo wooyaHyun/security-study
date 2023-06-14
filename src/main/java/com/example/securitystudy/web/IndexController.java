@@ -3,6 +3,8 @@ package com.example.securitystudy.web;
 import com.example.securitystudy.dto.Member.MemberJoinRequestDto;
 import com.example.securitystudy.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,7 @@ public class IndexController {
     }
 
     @GetMapping("/login/join")
-    public String join(){
+    public String joinPage(){
 
         return "login/join";
     }
@@ -36,9 +38,9 @@ public class IndexController {
     @PostMapping("/login/join")
     public String userJoin(@ModelAttribute MemberJoinRequestDto requestDto) {
 
-        //memberService.addUser(requestDto);
+        memberService.addUser(requestDto);
 
-        return "user/login";
+        return "login/login";
     }
 
     @GetMapping("/admins")
@@ -48,9 +50,8 @@ public class IndexController {
     }
 
     @GetMapping("/posts")
-    public String ledgers(){
-
-
+    public String posts(@AuthenticationPrincipal UserDetails user, Model model){
+        model.addAttribute("user",user.getUsername());
         return "post/post";
     }
 }
