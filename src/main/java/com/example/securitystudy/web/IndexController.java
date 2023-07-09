@@ -3,10 +3,14 @@ package com.example.securitystudy.web;
 import com.example.securitystudy.dto.Member.MemberJoinRequestDto;
 import com.example.securitystudy.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +41,7 @@ public class IndexController {
 
     @PostMapping("/login/join")
     public String userJoin(@ModelAttribute MemberJoinRequestDto requestDto) {
-
+        int error = 4/0;
         memberService.addUser(requestDto);
 
         return "login/login";
@@ -54,4 +58,10 @@ public class IndexController {
         model.addAttribute("user",user.getUsername());
         return "post/post";
     }
+
+    /*@ExceptionHandler(ArithmeticException.class)
+    public ResponseEntity<ErrorResponse> handleArithmeticException(ArithmeticException exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorResponse);
+    }*/
+
 }

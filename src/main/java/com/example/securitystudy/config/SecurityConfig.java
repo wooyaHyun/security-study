@@ -73,7 +73,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     public final AuthenticationEntryPoint unauthorizedEntryPoint =
             (request, response, authException) -> {
                 ErrorResponse fail = new ErrorResponse(HttpStatus.UNAUTHORIZED, "Spring security unauthorized...");
